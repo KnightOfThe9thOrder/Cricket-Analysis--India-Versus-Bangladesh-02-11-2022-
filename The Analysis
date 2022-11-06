@@ -1,0 +1,240 @@
+#Importing Libraries
+import pandas as pd
+import numpy as np
+import plotly.express as px
+import plotly.graph_objects as go
+import matplotlib.pyplot as plt
+#Getting the dataset
+match=pd.read_csv(r"C:\Users\Personal\github\Data Analysis Project\Cricket Match Analysis\IndiaVsBangladesh-2-11-22\1298169.csv")
+#Checking data
+print(match.head())
+match1=match.fillna(0)
+#Resampling
+match_India=match[match["batting_team"]=="India"]
+match_Bangladesh=match[match["batting_team"]=="Bangladesh"]
+runs_India=match_India["runs_off_bat"].values.tolist()
+extras_India=match_India["extras"].values.tolist()
+wickets_India=match_India["wicket_type"].values.tolist()
+bowler_India=match_India["bowler"].values.tolist()
+runs_Bangladesh=match_Bangladesh["runs_off_bat"].values.tolist()
+extras_Bangladesh=match_Bangladesh["extras"].values.tolist()
+wickets_Bangladesh=match_Bangladesh["wicket_type"].values.tolist()
+bowler_Bangladesh=match_Bangladesh["bowler"].values.tolist()
+#Adding Runs Column
+i=0
+j=0
+for x in range(125):
+    i=i+runs_India[x]+extras_India[x]
+    runs_India[x]=i
+for y in range(97):
+    j=j+runs_Bangladesh[y]+extras_Bangladesh[y]
+    runs_Bangladesh[y]=j
+
+match_India["Runs"]=runs_India
+match_Bangladesh["Runs"]=runs_Bangladesh
+#Run Graph for India
+match_India.plot(x="ball",y="Runs")
+plt.title("Runs Graph for India")
+plt.ylabel("Runs")
+plt.xlabel("Balls")
+
+plt.show()
+#Run Graph for Bangladesh
+match_Bangladesh.plot(x="ball",y="Runs")
+plt.title("Runs Graph for Bangladesh")
+plt.ylabel("Runs")
+plt.xlabel("Balls")
+
+plt.show()
+#Wicket Type Distribution for India
+wicket_India = match_India["wicket_type"].value_counts()
+numbers = wicket_India.index
+quantity = wicket_India.values
+fig = px.pie(match_India, values=quantity, names=numbers,title="Share of Wicket Distribution For India")
+fig.show()
+#Wicket Type Distribution for Bangladesh
+wicket_Bangladesh = match_Bangladesh["wicket_type"].value_counts() 
+numbers = wicket_Bangladesh.index
+quantity = wicket_Bangladesh.values
+fig = px.pie(match_Bangladesh, values=quantity, names=numbers,title="Share of Wicket Distribution For Bangladesh")
+fig.show()
+#Wickets Taken by India
+a=0
+b=0
+m=0
+h=0
+r=0
+p=0
+for x in range(97):
+    if wickets_Bangladesh[x]=='caught' and bowler_Bangladesh[x]== 'Arshdeep Singh':
+        a=a+1
+    elif wickets_Bangladesh[x]=='run out' and bowler_Bangladesh[x]== 'Arshdeep Singh':
+        a=a+1
+    elif wickets_Bangladesh[x]=='bowled' and bowler_Bangladesh[x]== 'Arshdeep Singh':
+        a=a+1
+    elif wickets_Bangladesh[x]=='caught' and bowler_Bangladesh[x]== 'B Kumar':
+        b=b+1
+    elif wickets_Bangladesh[x]=='run out' and bowler_Bangladesh[x]== 'B Kumar':
+        b=b+1
+    elif wickets_Bangladesh[x]=='bowled' and bowler_Bangladesh[x]== 'B Kumar':
+        b=b+1
+    elif wickets_Bangladesh[x]=='caught' and bowler_Bangladesh[x]== 'Mohammed Shami':
+        m=m+1
+    elif wickets_Bangladesh[x]=='run out' and bowler_Bangladesh[x]== 'Mohammed Shami':
+        m=m+1
+    elif wickets_Bangladesh[x]=='bowled' and bowler_Bangladesh[x]== 'Mohammed Shami':
+        m=m+1
+    elif wickets_Bangladesh[x]=='caught' and bowler_Bangladesh[x]== 'HH Pandya':
+        h=h+1
+    elif wickets_Bangladesh[x]=='run out' and bowler_Bangladesh[x]== 'HH Pandya':
+        h=h+1
+    elif wickets_Bangladesh[x]=='bowled' and bowler_Bangladesh[x]== 'HH Pandya':
+        h=h+1
+    elif wickets_Bangladesh[x]=='caught' and bowler_Bangladesh[x]== 'R Ashwin':
+        r=r+1
+    elif wickets_Bangladesh[x]=='run out' and bowler_Bangladesh[x]== 'R Ashwin':
+        r=r+1
+    elif wickets_Bangladesh[x]=='bowled' and bowler_Bangladesh[x]== 'R Ashwin':
+        r=r+1
+    elif wickets_Bangladesh[x]=='caught' and bowler_Bangladesh[x]== 'AR Patel':
+        p=p+1
+    elif wickets_Bangladesh[x]=='run out' and bowler_Bangladesh[x]== 'AR Patel':
+        p=p+1
+    elif wickets_Bangladesh[x]=='bowled' and bowler_Bangladesh[x]== 'AR Patel':
+        p=p+1
+
+wic_India={"Player Name":["Arshdeep Singh","B Kumar","Mohammed Shami","HH Pandya","R Ashwin","AR Patel"],
+            "Number of Wickets":[a,b,m,h,r,p] }
+wic_Ind=pd.DataFrame(wic_India)
+wic_Ind.plot(kind='bar',x='Player Name',y='Number of Wickets')
+plt.ylabel("Number of Wickets")
+plt.title("Wickets Taken by Indian Bowlers")
+plt.show()
+#Wickets Taken by Bangladesh
+a=0
+b=0
+m=0
+h=0
+r=0
+p=0
+for x in range(125):
+    if wickets_India[x]=='caught' and bowler_India[x]== 'Taskin Ahmed':
+        a=a+1
+    elif wickets_India[x]=='run out' and bowler_India[x]== 'Taskin Ahmed':
+        a=a+1
+    elif wickets_India[x]=='bowled' and bowler_India[x]== 'Taskin Ahmed':
+        a=a+1
+    elif wickets_India[x]=='caught' and bowler_India[x]== 'Shoriful Islam':
+        b=b+1
+    elif wickets_India[x]=='run out' and bowler_India[x]== 'Shoriful Islam':
+        b=b+1
+    elif wickets_India[x]=='bowled' and bowler_India[x]== 'Shoriful Islam':
+        b=b+1
+    elif wickets_India[x]=='caught' and bowler_India[x]== 'Hasan Mahmud':
+        m=m+1
+    elif wickets_India[x]=='run out' and bowler_India[x]== 'Hasan Mahmud':
+        m=m+1
+    elif wickets_India[x]=='bowled' and bowler_India[x]== 'Hasan Mahmud':
+        m=m+1
+    elif wickets_India[x]=='caught' and bowler_India[x]== 'Mustafizur Rahman':
+        h=h+1
+    elif wickets_India[x]=='run out' and bowler_India[x]== 'Mustafizur Rahman':
+        h=h+1
+    elif wickets_India[x]=='bowled' and bowler_India[x]== 'Mustafizur Rahman':
+        h=h+1
+    elif wickets_India[x]=='caught' and bowler_India[x]== 'Shakib Al Hasan':
+        r=r+1
+    elif wickets_India[x]=='run out' and bowler_India[x]== 'Shakib Al Hasan':
+        r=r+1
+    elif wickets_India[x]=='bowled' and bowler_India[x]== 'Shakib Al Hasan':
+        r=r+1
+    elif wickets_India[x]=='caught' and bowler_India[x]== 'Shoriful Islam':
+        p=p+1
+    elif wickets_India[x]=='run out' and bowler_India[x]== 'Shoriful Islam':
+        p=p+1
+    elif wickets_India[x]=='bowled' and bowler_India[x]== 'Shoriful Islam':
+        p=p+1
+
+wic_Bangladesh={"Player Name":["Taskin Ahmed","Shoriful Islam","Hasan Mahmud","Mustafizur Rahman","Shakib Al Hasan","Shoriful Islam"],
+            "Number of Wickets":[a,b,m,h,r,p] }
+wic_Ban=pd.DataFrame(wic_Bangladesh)
+wic_Ban.plot(kind='bar',x='Player Name',y='Number of Wickets')
+plt.ylabel("Number of Wickets")
+plt.title("Wickets Taken by Bangladeshi Bowlers")
+plt.show()
+#Finding the highest scorer in the match
+scorer=match["runs_off_bat"].values.tolist()
+bat_list=match["striker"].values.tolist()
+k=0
+g=0
+v=0
+s=0
+h=0
+d=0
+a=0
+r=0
+K=0
+G=0
+V=0
+S=0
+H=0
+D=0
+A=0
+R=0
+for x in range(222):
+    if bat_list[x]=="KL Rahul":
+        k=k+scorer[x]
+    elif bat_list[x]=="RG Sharma":
+        g=g+scorer[x]
+    elif bat_list[x]=="V Kohli":
+        v=v+scorer[x]
+    elif bat_list[x]=="SA Yadav":
+        s=s+scorer[x]
+    elif bat_list[x]=="HH Pandya":
+        h=h+scorer[x]
+    elif bat_list[x]=="KD Karthik":
+        d=d+scorer[x]
+    elif bat_list[x]=="AR Patel":
+        a=a+scorer[x]
+    elif bat_list[x]=="R Ashwin":
+        r=r+scorer[x]
+    elif bat_list[x]=="Taskin Ahmed":
+        K=K+scorer[x]
+    elif bat_list[x]=="Nazmul Hossain Shanto":
+        G=G+scorer[x]
+    elif bat_list[x]=="Liton Das":
+        V=V+scorer[x]
+    elif bat_list[x]=="Shakib Al Hasan":
+        S=S+scorer[x]
+    elif bat_list[x]=="Afif Hossain":
+        H=H+scorer[x]
+    elif bat_list[x]=="Yasir Ali Chowdhury":
+        D=D+scorer[x]
+    elif bat_list[x]=="Nurul Hasan":
+        A=A+scorer[x]
+    elif bat_list[x]=="Mosaddek Hossain":
+        R=R+scorer[x]
+bat_run={"Player Name": ["Mosaddek Hossain","Nurul Hasan","Yasir Ali Chowdhury","Afif Hossain","Shakib Al Hasan","Liton Das","Nazmul Hossain Shanto","Taskin Ahmed",
+                        "R Ashwin","AR Patel","KD Karthik","HH Pandya","SA Yadav","V Kohli","RG Sharma","KL Rahul"],
+        "Score":[R,A,D,H,S,V,G,K,r,a,d,h,s,v,g,k]} 
+ScoreBoard=pd.DataFrame(bat_run)
+print("The highest scorer of the match is:")
+print(" ")
+print(ScoreBoard.sort_values(by="Score",ascending=False).head(1))
+#Distribution of V Kohli's run
+r=0
+f=0
+s=0
+for x in range(222):
+    if bat_list[x]=="V Kohli":
+        if scorer[x]<=3:
+            r=r+1
+        elif scorer[x]==4:
+            f=f+1
+        elif scorer[x]==6:
+            s=s+1
+runs_chart={"Types":["Running Between Wicket","Four","Six"],
+           "Number":[r,f,s]}
+Chart=pd.DataFrame(runs_chart)
+figure=px.pie(Chart, values="Number", names="Types",title="V Kohli's runs' distribution")
+figure.show()
